@@ -376,34 +376,38 @@ class Turret(object):
         GPIO.output(RELAY_PIN, GPIO.LOW)
 
     @staticmethod
-    def move_forward(motor, steps):
+    def move_forward(motor,steps):
         """
         Moves the stepper motor forward the specified number of steps.
         :param motor:
         :param steps:
         :return:
         """
-        motor.step(steps, Adafruit_MotorHAT.FORWARD,  Adafruit_MotorHAT.INTERLEAVE)
+        MOTOR.stepperCONFIG(0,motor,'ccw','4M',100,0)
+        MOTOR.stepperMOVE(0,motor,steps)
+        #motor.step(steps, Adafruit_MotorHAT.FORWARD,  Adafruit_MotorHAT.INTERLEAVE)
 
     @staticmethod
-    def move_backward(motor, steps):
+    def move_backward(motor,steps):
         """
         Moves the stepper motor backward the specified number of steps
         :param motor:
         :param steps:
         :return:
         """
-        motor.step(steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
+        MOTOR.stepperCONFIG(0,motor,'cw','4M',100,0)
+        MOTOR.stepperMOVE(0,motor,steps)
+        #motor.step(steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
 
     def __turn_off_motors(self):
         """
         Recommended for auto-disabling motors on shutdown!
         :return:
         """
-        self.mh.getMotor(1).run(Adafruit_MotorHAT.RELEASE)
-        self.mh.getMotor(2).run(Adafruit_MotorHAT.RELEASE)
-        self.mh.getMotor(3).run(Adafruit_MotorHAT.RELEASE)
-        self.mh.getMotor(4).run(Adafruit_MotorHAT.RELEASE)
+        self.mh.getMotor(1).run(MOTOR.stepperOFF(0,'a'))
+        self.mh.getMotor(2).run(MOTOR.stepperOFF(0,'b'))
+        #self.mh.getMotor(3).run(Adafruit_MotorHAT.RELEASE)
+        #self.mh.getMotor(4).run(Adafruit_MotorHAT.RELEASE)
 
 if __name__ == "__main__":
     t = Turret(friendly_mode=False)
